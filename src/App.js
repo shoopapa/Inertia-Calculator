@@ -83,9 +83,9 @@ const App = () => {
         gridSize={gridSize+40}
         size={dim}
       />
-      <div className="Search">
-        {(Object.keys(points).length > 2)? renderList() : "" }
-      </div>
+      {/* <div className="Search">
+        {(Object.keys(points).length > 2)? renderList() : <ul><li></li></ul> }
+      </div> */}
     </div>
     
   );

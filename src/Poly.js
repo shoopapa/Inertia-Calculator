@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import Board from "./Board.js";
+import Board2 from "./Board2.js";
 import Grid from './Grid.js';
 import PolyLines from './PolyLines'
 import './App.css';
@@ -26,28 +27,6 @@ const genBoard = (size) => {
 }
 
 const Poly = ({ points, setPoints, I, gridSize, size, calcI}) => {
-  const [boardState, setBoardState] = useState(genBoard(size))
-
-  const squareOff = (l) => {
-    setBoardState({ 
-      ...boardState, 
-      [l]: {...boardState[l], selected: false}
-    })
-    const {[l]:bye, ...keep} = points
-    setPoints(keep)
-    calcI(keep)
-  }
-
-  const squareOn = (loc) => {
-    setBoardState({ 
-      ...boardState, 
-      [loc]: {...boardState[loc], selected: true}
-    })
-    const newPoints = {...points, [loc]:[ boardState[loc].x, boardState[loc].y ]}
-    calcI(newPoints)
-    setPoints(newPoints)
-    
-  }
 
   const renderFit = (comp) => {return (
     <div  
@@ -58,25 +37,18 @@ const Poly = ({ points, setPoints, I, gridSize, size, calcI}) => {
       </div>
   )}
 
-
   return (
     <div className='Grid'
-      style={{ width:gridSize + 40,  height:gridSize + 40 }} 
+      style={{ width:gridSize,  height:gridSize}} 
     >
       { renderFit(<Grid/>) }
 
-      { ( I !== "no")? renderFit( <Axis points={points} height={size} I={I}/>): ""}
+      {/* { ( I !== "no")? renderFit( <Axis points={points} height={size} I={I}/>): ""} */}
 
-      { renderFit( <PolyLines points={points} height={size} /> ) }
+      { renderFit( <PolyLines points={points} height={gridSize} /> ) }
 
-      <div className='Overlay' >
-        <Board 
-          nxn={size} 
-          squareOn={squareOn} 
-          squareOff={squareOff} 
-          boardState={boardState} 
-        />
-      </div>
+      {renderFit (<Board2 points={points} setPoints={setPoints}/>)}
+
     </div>
   );
   
