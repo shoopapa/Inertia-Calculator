@@ -48,7 +48,6 @@ const polygeom = (x,y) => {
     [-Iuv, Ivv] 
   ];
   const eig = Numeric.eig(I)
-  console.log(eig)
   const { lambda:{ x:[I1,I2] }, E:{x:vec} } = eig
 
   const _ang1 = (Math.atan2( vec[1][0], vec[0][0] )/Math.PI*180)
@@ -59,8 +58,8 @@ const polygeom = (x,y) => {
 
   return {
     centriod:{x_cen:parseFloat(x_cen.toFixed(3)), y_cen:parseFloat(y_cen.toFixed(3)), A:parseFloat(A.toFixed(3))},
-    ILocx:{I:I1.toFixed(3), ang_horz:ang1, raw_ang: _ang1 }, 
-    ILocy:{I:I2.toFixed(3), ang_horz:ang2, raw_ang: _ang2 }, 
+    ILocx:{I:I1.toFixed(3), ang_horz:ang1.toFixed(3), raw_ang: _ang1 }, 
+    ILocy:{I:I2.toFixed(3), ang_horz:ang2.toFixed(3), raw_ang: _ang2 }, 
     Iuu:parseFloat(Iuu.toFixed(3)), Ivv:parseFloat(Ivv.toFixed(3)), J:parseFloat(J.toFixed(3))
   }
 

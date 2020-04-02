@@ -6,8 +6,8 @@ import './App.css';
 const getGridSize = () => {
   const wH = window.innerHeight
   const wW = window.innerWidth
-  const h = wH - .25*wH
-  const w = wW - .25*wW
+  const h = wH - .2*wH
+  const w = wW - .2*wW
   const d = h < w? h : w
   const f = d - d%40 + 1
   return f
@@ -64,10 +64,10 @@ const App = () => {
          {"J " + calc.J }
       </li>
       <li style ={{color:"red"}}>
-        { calc.ILocx.I }
+        { `${calc.ILocx.I} ∡ ${calc.ILocx.ang_horz}°`}
       </li>
       <li style ={{color:"green"}}>
-        { calc.ILocy.I }
+      { `${calc.ILocy.I} ∡ ${calc.ILocy.ang_horz}°`}
       </li>
       
     </ul>
