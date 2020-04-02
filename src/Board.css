@@ -4,3 +4,15 @@
   height: 40px;
   width: 40px;
 }
+
+.Grid {
+  display:  flex  ;
+  position: relative ;
+  align-items:  center  ;
+  justify-content:  center  ;
+  flex-direction:  column  ;
+}
+
+.Overlay {
+  position: absolute;
+}

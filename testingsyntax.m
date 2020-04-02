@@ -1,10 +1,6 @@
-x = [ 2.000  0.500  4.830  6.330 ]';
-y = [ 4.000  6.598  9.098  6.500 ]';
+x = [ 0 0 6 6 ]';
+y = [ 1 0 0 1 ]';
 
-
-if ~isequal( size(x), size(y) ),
-  error( 'X and Y must be the same size');
-end
  
 % temporarily shift data to mean of vertices for improved accuracy
 xm = mean(x);
@@ -55,13 +51,8 @@ Ixy = Iuv + A*x_cen*y_cen;
 I = [ Iuu  -Iuv ;
      -Iuv   Ivv ];
 [ eig_vec, eig_val ] = eig(I);
-I1 = eig_val(1,1);
-I2 = eig_val(2,2);
-d2r = pi / 180
-ang1 = atan2( eig_vec(2,1), eig_vec(1,1) )/d2r
-ang2 = atan2( eig_vec(2,2), eig_vec(1,2) )/d2r
+I1 = eig_val(1,1)
+I2 = eig_val(2,2)
+ang1 = atan2( eig_vec(2,1), eig_vec(1,1) );
+ang2 = atan2( eig_vec(2,2), eig_vec(1,2) );
  
-% return values
-geom = [ A  x_cen  y_cen  P ];
-iner = [ Ixx  Iyy  Ixy  Iuu  Ivv  Iuv ];
-cpmo = [ I1  ang1  I2  ang2  J ];

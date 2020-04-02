@@ -25,7 +25,6 @@
 }
 
 .Search {
-  width: 150px;
   margin:10;
   background-color: #3f4350;
   flex-direction: column;
@@ -33,7 +32,8 @@
   display: flex;
   justify-content: center;
   border-radius: 5px;
-  padding: 0px;
+  padding-right: 15px;
+
 }
 
 @keyframes App-logo-spin {
