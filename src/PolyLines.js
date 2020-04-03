@@ -3,12 +3,10 @@ import React from 'react'
 const PolyLines = ({points,height}) => {
   const p = Object.values(points)
   const pp = p.map((_,i) => (i === p.length - 1) ? p[0] : p[i+1])
-  console.log(p)
+
   const line = () => {
     return (
       p.map( (_,i)=> { 
-
-        console.log(p[i])
         return (
           <line 
             key={i}

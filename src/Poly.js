@@ -1,5 +1,4 @@
-import React, {useState} from 'react';
-import Board from "./Board.js";
+import React from 'react';
 import Board2 from "./Board2.js";
 import Grid from './Grid.js';
 import PolyLines from './PolyLines'
@@ -7,26 +6,7 @@ import './App.css';
 import './Board.css'
 import Axis from './Axis.js'
 
-const genBoard = (size) => {
-  const genSquare = (x,y,selected) => {
-    return { 
-      selected,
-      x,
-      y,
-    }
-  }
-
-  let board = {}
-  for ( let i = 0; i<(size+1)**2; i++) {
-    const x = (i)%(size+1) 
-    const y = Math.floor( i/(size+1) ) 
-    const loc = `${x} ${y}`
-    board[loc] = genSquare(x,y,false)
-  }
-  return board
-}
-
-const Poly = ({ points, setPoints, I, gridSize, size, calcI}) => {
+const Poly = ({ points, setPoints, I, gridSize, size, calcI, dw}) => {
 
   const renderFit = (comp) => {return (
     <div  
@@ -41,19 +21,24 @@ const Poly = ({ points, setPoints, I, gridSize, size, calcI}) => {
     <div className='Grid'
       style={{ width:gridSize,  height:gridSize}} 
     >
-      { renderFit(<Grid/>) }
+      { renderFit(<Grid dw={dw}/>) }
 
-      {/* { ( I !== "no")? renderFit( <Axis points={points} height={size} I={I}/>): ""} */}
+      { ( I !== "no")? renderFit( <Axis points={points} height={gridSize} I={I}/>): ""}
 
       { renderFit( <PolyLines points={points} height={gridSize} /> ) }
 
-      {renderFit (<Board2 points={points} setPoints={setPoints}/>)}
-
+      { renderFit (
+        <Board2 
+          dw={dw} 
+          snap={7} 
+          points={points} 
+          setPoints={setPoints} 
+          calcI={calcI}
+        />
+      )}
     </div>
   );
   
 }
 
 export default Poly;
-
-

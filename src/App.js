@@ -3,18 +3,20 @@ import Poly from './Poly.js'
 import polygeom from './calc.js'
 import './App.css';
 
+const dw = 50
+
 const getGridSize = () => {
   const wH = window.innerHeight
   const wW = window.innerWidth
   const h = wH - .2*wH
   const w = wW - .2*wW
   const d = h < w? h : w
-  const f = d - d%40 + 1
+  const f = d - d%dw + 1
   return f
 }
 
 const gridSize = getGridSize() 
-const dim = (gridSize-1)/40 + 1
+const dim = (gridSize-1)/dw + 1
 
 const printPoints = (x,y) => {
   let xp = "x = [ "
@@ -36,9 +38,11 @@ const App = () => {
   const [calc, setCalc] = useState({})
 
   const calcI = (points) => {
+    console.log(points)
       if (Object.keys(points).length > 2) {
-      const x = Object.values(points).map(e => e[0])
-      const y = Object.values(points).map(e => e[1])
+      const x = Object.values(points).map(e => e.x)
+      const y = Object.values(points).map(e => e.y)
+      console.log(x,y)
       const data = polygeom(x,y)
       setCalc(data)
       console.log("Raw: ",data)
@@ -75,19 +79,26 @@ const App = () => {
 
   return (
     <div className="App-header">
-      <Poly 
-        calcI={calcI}
-        points={points}
-        setPoints={setPoints}
-        I={Object.keys(points).length > 2? calc : "no"}
-        gridSize={gridSize+40}
-        size={dim}
-      />
+      <div>
+        <Poly 
+          calcI={calcI}
+          points={points}
+          setPoints={setPoints}
+          I={Object.keys(points).length > 2? calc : "no"}
+          gridSize={gridSize}
+          size={dim}
+          dw={dw}
+          snap={5}
+        />
+        <p style={{fontSize:"1.5vh"}}>
+          {`${gridSize - 1}x${gridSize - 1}`}
+        </p>
+      </div>
+      
       {/* <div className="Search">
         {(Object.keys(points).length > 2)? renderList() : <ul><li></li></ul> }
       </div> */}
     </div>
-    
   );
 }
 
