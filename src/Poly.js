@@ -6,7 +6,7 @@ import './App.css';
 import './Board.css'
 import Axis from './Axis.js'
 
-const Poly = ({ points, setPoints, I, gridSize, size, calcI, dw}) => {
+const Poly = ({ points, setPoints, I, gridSize, calcI, dw}) => {
 
   const renderFit = (comp) => {return (
     <div  

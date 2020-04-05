@@ -3,20 +3,19 @@ import Poly from './Poly.js'
 import polygeom from './calc.js'
 import './App.css';
 
-const dw = 50
-
-const getGridSize = () => {
+const getGridSize = (dw) => {
+  console.log(dw)
   const wH = window.innerHeight
   const wW = window.innerWidth
   const h = wH - .2*wH
   const w = wW - .2*wW
-  const d = h < w? h : w
+  const d = Math.round(h < w? h : w)
+  console.log(d,d%dw)
   const f = d - d%dw + 1
+
   return f
 }
 
-const gridSize = getGridSize() 
-const dim = (gridSize-1)/dw + 1
 
 const printPoints = (x,y) => {
   let xp = "x = [ "
@@ -34,48 +33,62 @@ const printPoints = (x,y) => {
 }
 
 const App = () => {
+  const [dw, setDw] = useState(30)
+  const [gridSize, setGridSize] = useState(getGridSize(dw))
   const [points,setPoints]= useState({})
   const [calc, setCalc] = useState({})
+
 
   const calcI = (points) => {
     console.log(points)
       if (Object.keys(points).length > 2) {
       const x = Object.values(points).map(e => e.x)
-      const y = Object.values(points).map(e => e.y)
-      console.log(x,y)
+      const y = Object.values(points).map(e => gridSize - e.y)
       const data = polygeom(x,y)
+
       setCalc(data)
       console.log("Raw: ",data)
       printPoints(x,y)
     }
   }
 
-  const renderList = () => {return (
-    <ul>
-      <li>
-         {"Area: " + calc.centriod.A }
-      </li>
-      <li>
-         {`Centriod: (${calc.centriod.x_cen}, ${calc.centriod.x_cen})` }
-      </li>
-      <li>
-         {"Ix " + calc.Iuu }
-      </li>
-      <li>
-         {"Iy " + calc.Ivv }
-      </li>
-      <li>
-         {"J " + calc.J }
-      </li>
-      <li style ={{color:"red"}}>
-        { `${calc.ILocx.I} ∡ ${calc.ILocx.ang_horz}°`}
-      </li>
-      <li style ={{color:"green"}}>
-      { `${calc.ILocy.I} ∡ ${calc.ILocy.ang_horz}°`}
-      </li>
-      
-    </ul>
-  )}
+  const renderList = () => {
+    const dw2 = dw**2
+    const dw4 = dw**4
+    const accuracy = 3
+    return (
+      <ul>
+        <li>
+          {"Area: " + (calc.centriod.A/dw2).toFixed(accuracy) }
+        </li>
+        <li>
+          {`Centriod: (${(calc.centriod.x_cen/dw).toFixed(accuracy)}, ${(calc.centriod.y_cen/dw).toFixed(accuracy)})` }
+        </li>
+        <li>
+          {"Ix: " + (calc.Iuu/dw4).toFixed(accuracy) }
+        </li>
+        <li>
+          {"Iy: " + (calc.Ivv/dw4).toFixed(accuracy) }
+        </li>
+        <li>
+          {"J: " + (calc.J/dw4).toFixed(accuracy) }
+        </li>
+        <li style ={{color:"red"}}>
+          { `${(calc.ILocx.I/dw4).toFixed(accuracy)} ∡ ${(calc.ILocx.ang_horz).toFixed(accuracy)}°`}
+        </li>
+        <li style ={{color:"green"}}>
+        { `${(calc.ILocy.I/dw4).toFixed(accuracy)} ∡ ${(calc.ILocy.ang_horz).toFixed(accuracy)}°`}
+        </li>
+        
+      </ul>
+    )
+  }
+
+  const changeDw = (up) => {
+    const newDw = up? dw-5: dw+5
+    setDw(newDw)
+    setGridSize(getGridSize(newDw))
+  }
 
   return (
     <div className="App-header">
@@ -86,18 +99,22 @@ const App = () => {
           setPoints={setPoints}
           I={Object.keys(points).length > 2? calc : "no"}
           gridSize={gridSize}
-          size={dim}
           dw={dw}
           snap={5}
         />
-        <p style={{fontSize:"1.5vh"}}>
-          {`${gridSize - 1}x${gridSize - 1}`}
-        </p>
+        <div className="Grid-size">
+        <button onClick={() => changeDw(false)}>-</button>
+          <p style={{fontSize:"1.5vh"}}>
+            {`${((gridSize - 1)/dw)}x${((gridSize - 1)/dw)}`}
+          </p>
+          <button onClick={() => changeDw(true)}>+</button>
+        </div>
       </div>
+      <></>
       
-      {/* <div className="Search">
+      <div className="Search">
         {(Object.keys(points).length > 2)? renderList() : <ul><li></li></ul> }
-      </div> */}
+      </div>
     </div>
   );
 }

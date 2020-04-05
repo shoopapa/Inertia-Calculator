@@ -1,5 +1,5 @@
 x = [ 0 0 6 6 ]';
-y = [ 1 0 0 1 ]';
+y = [ 1 0 0 1 ]'; 
 
  
 % temporarily shift data to mean of vertices for improved accuracy

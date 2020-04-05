@@ -3,9 +3,9 @@ import React from 'react'
 const MAxis = ({m,x0,y0,h,color}) => { return (
   <line 
     x1={ 0             } 
-    y1={ (y0-m*x0)     } 
+    y1={ y0-m*x0     } 
     x2={ h             } 
-    y2={ (m*(h-x0)+y0) }
+    y2={ m*( h - x0)+y0 }
     style={{
       stroke:color,
       strokeWidth:1
@@ -40,9 +40,11 @@ const PYAxis = ({y0, h, color}) => { return (
 )}
 
 const Axis = ({height, I}) => {
+  const h = height
   let {x_cen:x0, y_cen:y0} = I.centriod
-  const slope1 = Math.tan(Math.PI/180 * I.ILocx.raw_ang)
-  const slope2 = Math.tan(Math.PI/180 * I.ILocy.raw_ang)
+  const slope1 = -Math.tan(Math.PI/180 * (I.ILocx.raw_ang))
+  const slope2 = -Math.tan(Math.PI/180 * (I.ILocy.raw_ang))
+  console.log(slope1,slope2)
 
 
   const renderPrincple = () => { return (
@@ -51,14 +53,14 @@ const Axis = ({height, I}) => {
         m={slope1}
         h={height}
         x0={x0}
-        y0={y0}
+        y0={h-y0}
         color="red"
       />
       <MAxis 
         m={slope2}
         h={height}
         x0={x0}
-        y0={y0}
+        y0={h-y0}
         color="green"
       />
     </g>
@@ -69,13 +71,13 @@ const Axis = ({height, I}) => {
       <PYAxis 
         h={height}
         x0={x0}
-        y0={y0}
+        y0={h-y0}
         color="white"
       />
       <PXAxis 
         h={height}
         x0={x0}
-        y0={y0}
+        y0={h-y0}
         color="white"
       />
     </g>
