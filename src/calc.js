@@ -3,7 +3,7 @@ import { create, all } from 'mathjs'
 const config = { }
 const math = create(all, config)
 
-const polygeom = (x,y) => {
+const polygeom = (x,y,dw) => {
 
   // temporarily shift data to mean of vertices for improved accuracy
   const xm = math.mean(x);
@@ -50,19 +50,22 @@ const polygeom = (x,y) => {
   const eig = Numeric.eig(I)
   const { lambda:{ x:[I1,I2] }, E:{x:vec} } = eig
 
+  // console.log(vec[1][0], vec[0][0])
   const _ang1 = (Math.atan2( vec[1][0], vec[0][0] )/Math.PI*180)
   const ang1 = _ang1 < 0 ? _ang1+180 : _ang1
-  console.log(_ang1,ang1)
-  const _ang2 = _ang1+90
-  const ang2 = ang1<90?  ang1+90.0 : ang1-90
+  // console.log(_ang1,ang1)
 
-  return {
-    centriod:{x_cen:parseFloat(x_cen.toFixed(3)), y_cen:parseFloat(y_cen.toFixed(3)), A:parseFloat(A.toFixed(3))},
-    ILocx:{I:I1.toFixed(3), ang_horz:ang1.toFixed(3), raw_ang: _ang1 }, 
-    ILocy:{I:I2.toFixed(3), ang_horz:ang2.toFixed(3), raw_ang: _ang2 }, 
-    Iuu:parseFloat(Iuu.toFixed(3)), Ivv:parseFloat(Ivv.toFixed(3)), J:parseFloat(J.toFixed(3))
+  const _ang2 = _ang1+90
+  const ang2 = ang1 > 90? ang1-90: ang1+90
+
+  const raw = {
+    centriod:{x_cen:parseFloat(x_cen ), y_cen:parseFloat(y_cen ), A:parseFloat(A )},
+    ILocx:{I:I1 , ang_horz:ang1 , raw_ang: _ang1 }, 
+    ILocy:{I:I2 , ang_horz:ang2 , raw_ang: _ang2 }, 
+    Iuu:parseFloat(Iuu ), Ivv:parseFloat(Ivv ), J:parseFloat(J )
   }
 
+  return raw
 }
 
 export default polygeom
