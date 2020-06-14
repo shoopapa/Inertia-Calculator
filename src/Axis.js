@@ -42,9 +42,9 @@ const PYAxis = ({y0, h, color}) => { return (
 const Axis = ({height, I}) => {
   const h = height
   let {x_cen:x0, y_cen:y0} = I.centriod
-  const slope1 = -Math.tan(Math.PI/180 * (I.ILocx.raw_ang))
-  const slope2 = -Math.tan(Math.PI/180 * (I.ILocy.raw_ang))
-  console.log(slope1,slope2)
+  const slope2 = -Math.tan(Math.PI/180 * (I.ILocx.raw_ang))
+  const slope1 = -Math.tan(Math.PI/180 * (I.ILocy.raw_ang))
+  // console.log(slope1,slope2)
 
 
   const renderPrincple = () => { return (

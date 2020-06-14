@@ -2,17 +2,14 @@ import React, {useState} from 'react';
 import "./Board.css"
 
 
-const Point = ({x, y, remove, size, dw }) => {
+const Point = ({x, y, remove, size, l, setHoverPoint }) => {
   size = size? size : 4
   const [r, setr] = useState(size)
-  const l = `${x} ${y}`
-
   return (
     <circle 
-      onMouseEnter={() => setr(size + .5*size)}
-      onMouseLeave={() => setr(size)}
+      onMouseEnter={() => {setr(size + .3*size); setHoverPoint({x,y})}}
+      onMouseLeave={() => {setr(size); setHoverPoint({x,y})}}
       onClick={ () => { remove(l); setr(size) } }
-      key={`${x} ${y}`}
       cx={x}
       cy={y} 
       r={r}
@@ -35,7 +32,7 @@ const roundToSnap = (x,y,snap, dw) => {
     return [x,y]
 }
 
-const Board2 = ({points, setPoints, dw, snap, calcI}) => {
+const Board2 = ({points, setPoints, dw, snap, calcI, setHoverPoint}) => {
 
   const getCord = e => {
     const rect = e.target.getBoundingClientRect();
@@ -46,10 +43,11 @@ const Board2 = ({points, setPoints, dw, snap, calcI}) => {
     return {x:r[0],y:r[1]}
   }
 
-  const addPoint = (e,r) => {
+  const addPoint = e => {
     const rect = e.target.getBoundingClientRect();
     if(!(rect.width < 20)) {
       const p = getCord(e)
+      // console.log(p.x,p.y)
       const newPoints = {...points, [ `${p.x} ${p.y}` ]:{ x:p.x ,y:p.y} }
       calcI(newPoints)
       setPoints( newPoints )
@@ -57,6 +55,7 @@ const Board2 = ({points, setPoints, dw, snap, calcI}) => {
   }
 
   const removePoint = (l) => {
+    console.log(l)
     const {[l]:bye, ...keep} = points
     calcI( keep )
     setPoints( keep )
@@ -64,8 +63,12 @@ const Board2 = ({points, setPoints, dw, snap, calcI}) => {
 
   const renderPoints = () => { return (
     Object.values(points).map(e=>{
+      const l = `${e.x} ${e.y}`
       return (
-        <Point 
+        <Point
+          l={l} 
+          key={l}
+          setHoverPoint={setHoverPoint}
           remove={removePoint}
           x={e.x}
           y={e.y}

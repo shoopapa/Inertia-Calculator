@@ -50,10 +50,10 @@ const polygeom = (x,y,dw) => {
   const eig = Numeric.eig(I)
   const { lambda:{ x:[I1,I2] }, E:{x:vec} } = eig
 
-  console.log(vec[1][0], vec[0][0])
+  // console.log(vec[1][0], vec[0][0])
   const _ang1 = (Math.atan2( vec[1][0], vec[0][0] )/Math.PI*180)
   const ang1 = _ang1 < 0 ? _ang1+180 : _ang1
-  console.log(_ang1,ang1)
+  // console.log(_ang1,ang1)
 
   const _ang2 = _ang1+90
   const ang2 = ang1 > 90? ang1-90: ang1+90

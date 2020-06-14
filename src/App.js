@@ -4,20 +4,20 @@ import polygeom from './calc.js'
 import './App.css';
 
 const getGridSize = (dw) => {
-  console.log(dw)
   const wH = window.innerHeight
   const wW = window.innerWidth
   const h = wH - .2*wH
   const w = wW - .2*wW
   const d = Math.round(h < w? h : w)
-  console.log(d,d%dw)
-  const f = d - d%dw + 1
+  const f = d - d%dw
 
   return f
 }
 
 
-const printPoints = (x,y) => {
+const printPoints = (x,y,dw) => {
+  x=x.map(e=> e/dw)
+  y=y.map(e=> e/dw)
   let xp = "x = [ "
   x.forEach(e => {
     xp += e.toString() + " "
@@ -33,53 +33,54 @@ const printPoints = (x,y) => {
 }
 
 const App = () => {
+  const [accuracy, setAccuracy] = useState(3)
   const [dw, setDw] = useState(30)
   const [gridSize, setGridSize] = useState(getGridSize(dw))
+  const [hoverPoint, setHoverPoint] = useState({x:0,y:gridSize})
   const [points,setPoints]= useState({})
   const [calc, setCalc] = useState({})
 
 
   const calcI = (points) => {
-    console.log(points)
+    // console.log(gridSize)
       if (Object.keys(points).length > 2) {
       const x = Object.values(points).map(e => e.x)
       const y = Object.values(points).map(e => gridSize - e.y)
       const data = polygeom(x,y)
 
       setCalc(data)
-      console.log("Raw: ",data)
-      printPoints(x,y)
+      // console.log("Raw: ",data)
+      printPoints(x,y,dw)
     }
   }
 
   const renderList = () => {
     const dw2 = dw**2
     const dw4 = dw**4
-    const accuracy = 3
+
     return (
       <ul>
         <li>
           {"Area: " + (calc.centriod.A/dw2).toFixed(accuracy) }
         </li>
         <li>
-          {`Centriod: (${(calc.centriod.x_cen/dw).toFixed(accuracy)}, ${(calc.centriod.y_cen/dw).toFixed(accuracy)})` }
+          {`Cen:  (${(calc.centriod.x_cen/dw).toFixed(accuracy)}, ${(calc.centriod.y_cen/dw).toFixed(accuracy)})` }
         </li>
         <li>
-          {"Ix: " + (calc.Iuu/dw4).toFixed(accuracy) }
+          {"Ix:    " + (calc.Iuu/dw4).toFixed(accuracy) }
         </li>
         <li>
-          {"Iy: " + (calc.Ivv/dw4).toFixed(accuracy) }
+          {"Iy:    " + (calc.Ivv/dw4).toFixed(accuracy) }
         </li>
         <li>
-          {"J: " + (calc.J/dw4).toFixed(accuracy) }
+          {"J:     " + (calc.J/dw4).toFixed(accuracy) }
         </li>
         <li style ={{color:"red"}}>
-          { `${(calc.ILocx.I/dw4).toFixed(accuracy)} ∡ ${(calc.ILocx.ang_horz).toFixed(accuracy)}°`}
+          { `I₁:    ${(calc.ILocy.I/dw4).toFixed(accuracy)} ∡ ${(calc.ILocy.ang_horz).toFixed(accuracy)}°`}
         </li>
         <li style ={{color:"green"}}>
-        { `${(calc.ILocy.I/dw4).toFixed(accuracy)} ∡ ${(calc.ILocy.ang_horz).toFixed(accuracy)}°`}
+          { `I₂:    ${(calc.ILocx.I/dw4).toFixed(accuracy)} ∡ ${(calc.ILocx.ang_horz).toFixed(accuracy)}°`}
         </li>
-        
       </ul>
     )
   }
@@ -93,19 +94,23 @@ const App = () => {
   return (
     <div className="App-header">
       <div>
+        <p style={{fontSize:"1.5vh"}}>
+          {`(${(hoverPoint.x/dw).toFixed(accuracy)}, ${((gridSize-hoverPoint.y)/dw).toFixed(accuracy)})`}
+        </p>
         <Poly 
+          setHoverPoint={setHoverPoint}
           calcI={calcI}
           points={points}
           setPoints={setPoints}
           I={Object.keys(points).length > 2? calc : "no"}
           gridSize={gridSize}
           dw={dw}
-          snap={5}
+          snap={dw/4}
         />
         <div className="Grid-size">
         <button onClick={() => changeDw(false)}>-</button>
           <p style={{fontSize:"1.5vh"}}>
-            {`${((gridSize - 1)/dw)}x${((gridSize - 1)/dw)}`}
+            {`${((gridSize )/dw)}x${((gridSize )/dw)}`}
           </p>
           <button onClick={() => changeDw(true)}>+</button>
         </div>

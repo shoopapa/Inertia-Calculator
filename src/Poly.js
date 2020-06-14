@@ -6,12 +6,12 @@ import './App.css';
 import './Board.css'
 import Axis from './Axis.js'
 
-const Poly = ({ points, setPoints, I, gridSize, calcI, dw}) => {
+const Poly = ({ points, setPoints, I, gridSize, calcI, dw, setHoverPoint, snap}) => {
 
   const renderFit = (comp) => {return (
     <div  
         className='Overlay'
-        style={{ width:gridSize ,  height:gridSize  }} 
+        style={{ width:gridSize + 1 ,  height:gridSize +1 }} 
       >
         {comp}
       </div>
@@ -29,8 +29,9 @@ const Poly = ({ points, setPoints, I, gridSize, calcI, dw}) => {
 
       { renderFit (
         <Board2 
+          setHoverPoint={setHoverPoint}
           dw={dw} 
-          snap={7} 
+          snap={snap} 
           points={points} 
           setPoints={setPoints} 
           calcI={calcI}
