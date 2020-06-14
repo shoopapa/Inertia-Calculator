@@ -2101,6 +2101,11 @@ babel-runtime@^6.26.0:
     core-js "^2.4.0"
     regenerator-runtime "^0.11.0"
 
+babel@^6.23.0:
+  version "6.23.0"
+  resolved "https://registry.yarnpkg.com/babel/-/babel-6.23.0.tgz#d0d1e7d803e974765beea3232d4e153c0efb90f4"
+  integrity sha1-0NHn2APpdHZb7qMjLU4VPA77kPQ=
+
 babylon@^6.18.0:
   version "6.18.0"
   resolved "https://registry.yarnpkg.com/babylon/-/babylon-6.18.0.tgz#af2f3b88fa6f5c1e4c634d1a0f8eac4f55b395e3"
@@ -6775,6 +6780,11 @@ numbers@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/numbers/-/numbers-0.7.0.tgz#05f3f239a2a22d0064e2a313ab3a4236298bb1d1"
   integrity sha512-bdHRauOohlyg20dLiOitEJrXVs4xtu4GeDeKyChkWSfMeDLM39lUDcaOShSdmxqt4Ihu9syh480Fx/EiDY5zYQ==
+
+numeric@^1.2.6:
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/numeric/-/numeric-1.2.6.tgz#765b02bef97988fcf880d4eb3f36b80fa31335aa"
+  integrity sha1-dlsCvvl5iPz4gNTrPza4D6MTNao=
 
 numericjs@^1.2.6:
   version "1.2.6"
