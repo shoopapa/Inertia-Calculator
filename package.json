@@ -9,7 +9,7 @@
     "@testing-library/user-event": "^7.1.2",
     "babel": "^6.23.0",
     "gh-pages": "^3.0.0",
-    "mathjs": "^6.6.1",
+    "mathjs": "^7.5.1",
     "numbers": "^0.7.0",
     "numeric": "^1.2.6",
     "numericjs": "^1.2.6",
